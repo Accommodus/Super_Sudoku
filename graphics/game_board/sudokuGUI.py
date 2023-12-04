@@ -1,6 +1,6 @@
 import pygame
 import sys
-from constant import *
+from .constant import *
 
 
 class GameBoard:
@@ -19,6 +19,7 @@ class GameBoard:
         self.game_over = False
 
         #  initialize the game screen
+        pygame.init()
         self.screen.fill(BG_COLOR)
         self.draw_grid()
 

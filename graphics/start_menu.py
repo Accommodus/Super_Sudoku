@@ -1,6 +1,6 @@
 import pygame
 import sys
-import sudokuGUI
+from .game_board import sudokuGUI
 
 
 class MenuOption(pygame.sprite.Sprite):

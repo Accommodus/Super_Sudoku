@@ -1,6 +1,6 @@
 import random
 import math
-import start_menu
+from graphics import start_menu
 
 class SudokuGenerator:
     # Constructor
