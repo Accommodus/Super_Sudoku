@@ -148,5 +148,5 @@ def print_board(board):
 
 
 if __name__ == '__main__':
-    menu = start_menu.GameMenu(500, 500)
+    menu = start_menu.StartMenu(500, 500)
     menu.run()

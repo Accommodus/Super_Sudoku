@@ -3,6 +3,10 @@ import sys
 
 
 class MenuOption(pygame.sprite.Sprite):
+    """
+
+    """
+
     def __init__(self, text, action, pos_x, pos_y, font, color, screen):
         super().__init__()  # creates a pygame sprite
         self.text = text
@@ -20,8 +24,15 @@ class MenuOption(pygame.sprite.Sprite):
 
 
 class TextBox(pygame.sprite.Sprite):
-    def __init__(self, pos_x, pos_y, width, height, font, prompt_text, color, screen, default_text='', highlight_color=(255, 0, 0)):
-        super().__init__()
+    """
+
+    """
+    def __init__(self, pos_x, pos_y, width, height, font, prompt_text, color, screen, default_text='',
+                 highlight_color=(255, 0, 0),
+                 outline_color=(0, 0, 0),
+                 outline_width=2):
+
+        super().__init__()  # creates a pygame sprite
         self.font = font
         self.prompt_text = prompt_text
         self.default_color = color
@@ -33,17 +44,14 @@ class TextBox(pygame.sprite.Sprite):
 
         self.image = pygame.Surface((width, height), pygame.SRCALPHA)
         self.rect = self.image.get_rect(center=(pos_x, pos_y))
-        self.outline_color = (0, 0, 0)
-        self.outline_width = 2
+        self.outline_color = outline_color
+        self.outline_width = outline_width
 
     def update(self, *args, **kwargs):
-        # Fill background color
         self.image.fill(self.current_color)
 
-        # Draw outline
         pygame.draw.rect(self.image, self.outline_color, self.image.get_rect(), self.outline_width)
 
-        # Render the text
         text_surface = self.font.render(self.prompt_text + self.text, True, (0, 0, 0))
         self.image.blit(text_surface, (5, (self.rect.height - text_surface.get_height()) // 2))
 
@@ -71,7 +79,11 @@ class TextBox(pygame.sprite.Sprite):
         return self.text
 
 
-class GameMenu:
+class StartMenu:
+    """
+
+    """
+
     def __init__(self, default_screen_width, default_screen_height):
         self.screen_width = default_screen_width
         self.screen_height = default_screen_height
@@ -91,31 +103,30 @@ class GameMenu:
             "Hard": self.start_hard
         }
 
-        # Determine the y position and buffer for the menu options
-        start_menu_options_pos_y = self.screen_height // 8
-        start_menu_options_buffer = self.screen_height // 20  # Fixed buffer space between items
+        START_MENU_OPTIONS_POS_Y = self.screen_height // 8
+        START_MENU_OPTIONS_BUFFER = self.screen_height // 20
 
-        # Calculate the position of each menu option
-        current_y_pos = start_menu_options_pos_y
+        # Calculate the position of each game menu option
+        current_y_pos = START_MENU_OPTIONS_POS_Y  # variable that keeps track of the y_pos of each menu item
         for option, action in start_menu_options.items():
             self.create_menu_option(option, action, self.screen_width // 2, current_y_pos, self.font)
             _, text_height = self.font.size(option)
-            current_y_pos += text_height + start_menu_options_buffer
+            current_y_pos += text_height + START_MENU_OPTIONS_BUFFER
 
         #  Quit Game menu item
         current_y_pos += self.screen_height // 12
         self.create_menu_option("Quit Game", self.quit_game, self.screen_width // 2,
                                 current_y_pos, self.bold_font, (255, 0, 0))
 
-        # Add TextBoxes for width and height inputs
-        text_box_width = self.screen_width // 3
-        text_box_height = text_box_width // 4
+        #  Width and height menu items
+        TEXT_BOX_WIDTH = self.screen_width // 3 + 40
+        TEXT_BOX_HEIGHT = TEXT_BOX_WIDTH // 4
 
         current_y_pos += self.screen_height // 6
         self.width_box = TextBox(self.screen_width // 4,  # 1/4
                                  current_y_pos,
-                                 text_box_width,
-                                 text_box_height,
+                                 TEXT_BOX_WIDTH,
+                                 TEXT_BOX_HEIGHT,
                                  self.font,
                                  'Width: ',
                                  (255, 255, 255, 0),
@@ -124,8 +135,8 @@ class GameMenu:
 
         self.height_box = TextBox(3 * self.screen_width // 4,  # 3/4
                                   current_y_pos,
-                                  text_box_width,
-                                  text_box_height,
+                                  TEXT_BOX_WIDTH,
+                                  TEXT_BOX_HEIGHT,
                                   self.font,
                                   'Height: ',
                                   (255, 255, 255, 0),
@@ -134,7 +145,7 @@ class GameMenu:
 
         self.menu_options.add(self.width_box, self.height_box)
 
-        # Add Apply button for changing screen size
+        # Apply button menu item
         current_y_pos += self.screen_height // 8
         self.create_menu_option("Apply", self.apply_screen_size, self.screen_width // 2, current_y_pos, self.font)
 
@@ -154,14 +165,12 @@ class GameMenu:
             elif new_width > 1000 or new_height > 1000:
                 raise ValueError("New screen size is too large")
 
-            self.error_message = None
-
         except Exception as e:
             self.error_message = str(e)
             return
 
         pygame.quit()
-        new_menu = GameMenu(new_width, new_height)
+        new_menu = StartMenu(new_width, new_height)
         new_menu.run()
 
     def run(self):
