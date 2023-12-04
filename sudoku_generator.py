@@ -1,6 +1,6 @@
 import random
 import math
-
+import start_menu
 
 class SudokuGenerator:
     # Constructor
@@ -66,7 +66,7 @@ class SudokuGenerator:
     Provided for students
     Fills the remaining cells of the board
     Should be called after the diagonal boxes have been filled
-	
+
 	Parameters:
     row, col specify the coordinates of the first empty (0) cell
 
@@ -148,5 +148,5 @@ def print_board(board):
 
 
 if __name__ == '__main__':
-    board = generate_sudoku(9, 30)
-    print_board(board)
+    menu = start_menu.GameMenu(500, 500)
+    menu.run()
