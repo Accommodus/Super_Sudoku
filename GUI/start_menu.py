@@ -1,5 +1,6 @@
 import pygame
 import sys
+import sudokuGUI
 
 
 class MenuOption(pygame.sprite.Sprite):
@@ -10,7 +11,7 @@ class MenuOption(pygame.sprite.Sprite):
     - action: The function to be executed when the menu option is selected
     - font: Font used to render the text
     - color: The color of the text
-    - screen: Screen where the menu option is displayed.
+    - screen: Screen where the menu option is displayed
     - image: The rendered surface
     - rect: The rectangle area for positioning and event handling
 
@@ -38,21 +39,21 @@ class TextBox(pygame.sprite.Sprite):
     Represents an interactive text box for user input
 
     - font: Font used to render the text
-    - prompt_text: text displayed before user input.
+    - prompt_text: text displayed before user input
     - default_color: Default background color
-    - highlight_color: Background color when it is active (focused).
+    - highlight_color: Background color when it is active (focused)
     - current_color: The current background color
-    - screen: screen where the text box is displayed.
+    - screen: screen where the text box is displayed
     - text: The text entered by the user
     - active: A boolean indicating if the text box is active
     - image: The rendered surface
     - rect: The rectangle area for positioning and event handling
-    - outline_color: Color of the outline.
-    - outline_width: Width of the outline.
+    - outline_color: Color of the outline
+    - outline_width: Width of the outline
 
     - update(): Redraws the text box.
-    - handle_event(): Handles keyboard and mouse events.
-    - get_text(): Returns the current text.
+    - handle_event(): Handles keyboard and mouse events
+    - get_text(): Returns the current text
     """
     def __init__(self, pos_x, pos_y, width, height, font, prompt_text, color, screen, default_text='',
                  highlight_color=(255, 0, 0),
@@ -238,13 +239,19 @@ class StartMenu:
             pygame.display.flip()
 
     def start_easy(self):
-        print("Starting Easy mode...")
+        board = sudokuGUI.GameBoard(self.screen_width, self.screen_height)
+        pygame.quit()
+        board.run()
 
     def start_medium(self):
-        print("Starting Medium mode...")
+        board = sudokuGUI.GameBoard(self.screen_width, self.screen_height)
+        pygame.quit()
+        board.run()
 
     def start_hard(self):
-        print("Starting Hard mode...")
+        board = sudokuGUI.GameBoard(self.screen_width, self.screen_height)
+        pygame.quit()
+        board.run()
 
     @staticmethod
     def quit_game():
