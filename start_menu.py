@@ -102,16 +102,20 @@ class GameMenu:
             _, text_height = self.font.size(option)
             current_y_pos += text_height + start_menu_options_buffer
 
-        current_y_pos += self.screen_height // 12  # Additional space
+        #  Quit Game menu item
+        current_y_pos += self.screen_height // 12
         self.create_menu_option("Quit Game", self.quit_game, self.screen_width // 2,
                                 current_y_pos, self.bold_font, (255, 0, 0))
 
         # Add TextBoxes for width and height inputs
-        current_y_pos += self.screen_height // 12
+        text_box_width = self.screen_width // 3
+        text_box_height = text_box_width // 4
+
+        current_y_pos += self.screen_height // 6
         self.width_box = TextBox(self.screen_width // 4,  # 1/4
                                  current_y_pos,
-                                 140,
-                                 30,
+                                 text_box_width,
+                                 text_box_height,
                                  self.font,
                                  'Width: ',
                                  (255, 255, 255, 0),
@@ -120,8 +124,8 @@ class GameMenu:
 
         self.height_box = TextBox(3 * self.screen_width // 4,  # 3/4
                                   current_y_pos,
-                                  140,
-                                  30,
+                                  text_box_width,
+                                  text_box_height,
                                   self.font,
                                   'Height: ',
                                   (255, 255, 255, 0),
