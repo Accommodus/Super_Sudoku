@@ -4,7 +4,17 @@ import sys
 
 class MenuOption(pygame.sprite.Sprite):
     """
+    Represents a selectable menu item
 
+    - text: The text displayed
+    - action: The function to be executed when the menu option is selected
+    - font: Font used to render the text
+    - color: The color of the text
+    - screen: Screen where the menu option is displayed.
+    - image: The rendered surface
+    - rect: The rectangle area for positioning and event handling
+
+    - handle_event(): Checks if the menu option is clicked and triggers the associated action
     """
 
     def __init__(self, text, action, pos_x, pos_y, font, color, screen):
@@ -25,7 +35,24 @@ class MenuOption(pygame.sprite.Sprite):
 
 class TextBox(pygame.sprite.Sprite):
     """
+    Represents an interactive text box for user input
 
+    - font: Font used to render the text
+    - prompt_text: text displayed before user input.
+    - default_color: Default background color
+    - highlight_color: Background color when it is active (focused).
+    - current_color: The current background color
+    - screen: screen where the text box is displayed.
+    - text: The text entered by the user
+    - active: A boolean indicating if the text box is active
+    - image: The rendered surface
+    - rect: The rectangle area for positioning and event handling
+    - outline_color: Color of the outline.
+    - outline_width: Width of the outline.
+
+    - update(): Redraws the text box.
+    - handle_event(): Handles keyboard and mouse events.
+    - get_text(): Returns the current text.
     """
     def __init__(self, pos_x, pos_y, width, height, font, prompt_text, color, screen, default_text='',
                  highlight_color=(255, 0, 0),
@@ -81,7 +108,23 @@ class TextBox(pygame.sprite.Sprite):
 
 class StartMenu:
     """
+    Manages the overall game menu
 
+    Attributes:
+    - screen_width: The width of the screen
+    - screen_height: The height of the screen
+    - screen: The main Pygame screen for rendering
+    - font: font for menu items
+    - bold_font: A bold font for highlighted menu items
+    - menu_options: group containing all menu options and text boxes
+    - error_message: A string to display error messages
+
+    Methods:
+    - create_menu_option(): Creates and adds a new menu option
+    - apply_screen_size(): Handles the resizing of the screen
+    - run(): The main loop
+    - start_easy()/medium()/hard(): methods for different menu actions
+    - quit_game(): method to handle game quitting action
     """
 
     def __init__(self, default_screen_width, default_screen_height):
