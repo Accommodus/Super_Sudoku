@@ -1,6 +1,7 @@
 import sys
-from .TextBox import *
-from .MenuOption import *
+import pygame
+from .TextBox import TextBox
+from .MenuOption import MenuOption
 
 
 class StartMenu:
@@ -43,8 +44,13 @@ class StartMenu:
         # Game menu items
         current_y_pos = START_MENU_OPTIONS_POS_Y  # variable that keeps track of the y_pos of each menu item
         for option, action in start_menu_options.items():
-            self.create_menu_option(option, action(self.screen_width, self.screen_height),  # creates the game menu
-                                    self.screen_width // 2, current_y_pos, self.font)
+            self.create_menu_option(
+                option,
+                lambda sw=self.screen_width, sh=self.screen_height, act=action: act(sw, sh),
+                self.screen_width // 2,
+                current_y_pos,
+                self.font
+            )
 
             _, text_height = self.font.size(option)
             current_y_pos += text_height + START_MENU_OPTIONS_BUFFER

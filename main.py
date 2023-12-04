@@ -1,33 +1,33 @@
-from graphics import start_menu
+from graphics.start_menu.StartMenu import StartMenu
 from graphics.game_board import sudokuGUI
 import pygame
 
 
-def start_easy(menu):
+def start_easy(screen_width, screen_height):
     pygame.quit()
-    board = sudokuGUI.GameBoard(menu.screen_width, menu.screen_height, 10)
+    board = sudokuGUI.GameBoard(screen_width, screen_height, 10)
     board.run()
 
 
-def start_medium(menu):
+def start_medium(screen_width, screen_height):
     pygame.quit()
-    board = sudokuGUI.GameBoard(menu.screen_width, menu.screen_height, 20)
+    board = sudokuGUI.GameBoard(screen_width, screen_height, 10)
     board.run()
 
 
-def start_hard(menu):
+def start_hard(screen_width, screen_height):
     pygame.quit()
-    board = sudokuGUI.GameBoard(menu.screen_width, menu.screen_height, 30)
+    board = sudokuGUI.GameBoard(screen_width, screen_height, 10)
     board.run()
 
 
 # {"menu_label": menu_function}
 start_menu_options = {
-            "Easy": lambda: start_easy(menu),
-            "Medium": lambda: start_medium(menu),
-            "Hard": lambda: start_hard(menu)
+            "Easy": start_easy,
+            "Medium": start_medium,
+            "Hard": start_hard
         }
 
 if __name__ == '__main__':
-    menu = start_menu.StartMenu(500, 500, start_menu_options)
+    menu = StartMenu(500, 500, start_menu_options)
     menu.run()
