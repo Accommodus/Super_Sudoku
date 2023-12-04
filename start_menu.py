@@ -20,28 +20,47 @@ class MenuOption(pygame.sprite.Sprite):
 
 
 class TextBox(pygame.sprite.Sprite):
-    def __init__(self, pos_x, pos_y, width, height, font, prompt_text, color, screen):
-        super().__init__()  # creates a pygame sprite
+    def __init__(self, pos_x, pos_y, width, height, font, prompt_text, color, screen, default_text='', highlight_color=(255, 0, 0)):
+        super().__init__()
         self.font = font
         self.prompt_text = prompt_text
-        self.color = color
+        self.default_color = color
+        self.highlight_color = highlight_color
+        self.current_color = self.default_color
         self.screen = screen
-        self.text = ''
+        self.text = str(default_text)
         self.active = False
 
-        self.image = pygame.Surface((width, height))
+        self.image = pygame.Surface((width, height), pygame.SRCALPHA)
         self.rect = self.image.get_rect(center=(pos_x, pos_y))
+        self.outline_color = (0, 0, 0)
+        self.outline_width = 2
 
     def update(self, *args, **kwargs):
-        self.image.fill(self.color)
+        # Fill background color
+        self.image.fill(self.current_color)
+
+        # Draw outline
+        pygame.draw.rect(self.image, self.outline_color, self.image.get_rect(), self.outline_width)
+
+        # Render the text
         text_surface = self.font.render(self.prompt_text + self.text, True, (0, 0, 0))
         self.image.blit(text_surface, (5, (self.rect.height - text_surface.get_height()) // 2))
 
+        if not self.active:
+            self.current_color = self.default_color
+
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
-            self.active = self.rect.collidepoint(event.pos)
-            if self.active and not self.text:
-                self.text = ''
+            if self.rect.collidepoint(event.pos):
+                self.active = True
+                self.current_color = self.highlight_color
+                if not self.text:
+                    self.text = ''
+            else:
+                self.active = False
+                self.current_color = self.default_color
+
         elif event.type == pygame.KEYDOWN and self.active:
             if event.key == pygame.K_BACKSPACE:
                 self.text = self.text[:-1]
@@ -96,7 +115,8 @@ class GameMenu:
                                  self.font,
                                  'Width: ',
                                  (255, 255, 255, 0),
-                                 self.screen)
+                                 self.screen,
+                                 self.screen_width)
 
         self.height_box = TextBox(3 * self.screen_width // 4,  # 3/4
                                   current_y_pos,
@@ -105,7 +125,8 @@ class GameMenu:
                                   self.font,
                                   'Height: ',
                                   (255, 255, 255, 0),
-                                  self.screen)
+                                  self.screen,
+                                  self.screen_height)
 
         self.menu_options.add(self.width_box, self.height_box)
 
@@ -123,16 +144,21 @@ class GameMenu:
         try:
             new_width = int(self.width_box.get_text())
             new_height = int(self.height_box.get_text())
-            self.screen = pygame.display.set_mode((new_width, new_height))
 
-            if new_width < 100 or new_height < 100: raise "New screen size is too small"
-            elif new_width > 1000 or new_height > 1000: raise "New screen size is too large"
+            if new_width < 300 or new_height < 300:
+                raise ValueError("New screen size is too small")
+            elif new_width > 1000 or new_height > 1000:
+                raise ValueError("New screen size is too large")
 
-            self.screen_width = new_width
-            self.screen_height = new_height
             self.error_message = None
+
         except Exception as e:
             self.error_message = str(e)
+            return
+
+        pygame.quit()
+        new_menu = GameMenu(new_width, new_height)
+        new_menu.run()
 
     def run(self):
         while True:
