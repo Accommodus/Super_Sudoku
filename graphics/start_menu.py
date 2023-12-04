@@ -239,18 +239,18 @@ class StartMenu:
             pygame.display.flip()
 
     def start_easy(self):
-        board = sudokuGUI.GameBoard(self.screen_width, self.screen_height)
         pygame.quit()
+        board = sudokuGUI.GameBoard(self.screen_width, self.screen_height)
         board.run()
 
     def start_medium(self):
-        board = sudokuGUI.GameBoard(self.screen_width, self.screen_height)
         pygame.quit()
+        board = sudokuGUI.GameBoard(self.screen_width, self.screen_height)
         board.run()
 
     def start_hard(self):
-        board = sudokuGUI.GameBoard(self.screen_width, self.screen_height)
         pygame.quit()
+        board = sudokuGUI.GameBoard(self.screen_width, self.screen_height)
         board.run()
 
     @staticmethod

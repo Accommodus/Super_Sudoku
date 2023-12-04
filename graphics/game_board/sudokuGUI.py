@@ -5,6 +5,7 @@ from .constant import *
 
 class GameBoard:
     def __init__(self, default_screen_width, default_screen_height, caption='Sudoku'):
+        pygame.init()
         self.screen_width = default_screen_width
         self.screen_height = default_screen_height
         pygame.display.set_caption(caption)
@@ -19,7 +20,6 @@ class GameBoard:
         self.game_over = False
 
         #  initialize the game screen
-        pygame.init()
         self.screen.fill(BG_COLOR)
         self.draw_grid()
 
