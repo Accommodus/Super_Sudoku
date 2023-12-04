@@ -1,6 +1,5 @@
 import random
 import math
-from graphics import start_menu
 
 class SudokuGenerator:
     # Constructor
@@ -145,8 +144,3 @@ def generate_sudoku(size, removed):
 def print_board(board):
     for row in board:
         print(" ".join(str(num) for num in row))
-
-
-if __name__ == '__main__':
-    menu = start_menu.StartMenu(500, 500)
-    menu.run()

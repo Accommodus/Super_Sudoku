@@ -4,7 +4,7 @@ from .constant import *
 
 
 class GameBoard:
-    def __init__(self, default_screen_width, default_screen_height, caption='Sudoku'):
+    def __init__(self, default_screen_width, default_screen_height, empty_spaces, caption='Sudoku'):
         pygame.init()
         self.screen_width = default_screen_width
         self.screen_height = default_screen_height
@@ -15,6 +15,7 @@ class GameBoard:
         self.font = pygame.font.Font(None, GAME_OVER_FONT)
 
         #  Game stats
+        self.empty_spaces = empty_spaces
         self.chip = 'x'
         self.winner = 0
         self.game_over = False
