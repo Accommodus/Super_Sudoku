@@ -30,10 +30,7 @@ class GameBoard:
         CELL_HEIGHT = VERTICAL_RATIO - cell_boarder_thickness
         CELL_PARAMETERS = (CELL_WIDTH, CELL_HEIGHT, self.font, 'green', self.screen,)
 
-        self.resetButton = pygame.draw.rect(self.screen, (200, 200, 200),
-                                            (B_WIDTH // 4, B_HEIGHT * 7 // 8, B_WIDTH // 2, B_HEIGHT // 8))
-        #self.restartButton = pygame.draw.rect()
-        #self.quitButton = pygame.draw.rect()
+
         self.cell_group = pygame.sprite.Group()
 
         # Create a cell for each position in the grid
@@ -71,7 +68,4 @@ class GameBoard:
 
             pygame.display.flip()
 
-    def reset(self, event):
-        pass
-        #if event.type == pygame.MOUSEBUTTONDOWN:
 
