@@ -7,8 +7,8 @@ class SudokuGenerator:
         # Initialize a row_length x row_length board with zeros
         self.board = [[0] * row_length for _ in range(row_length)]
         self.removed_cells = removed_cells  # Number of cells to remove for puzzle
-        self.row_length = row_length  # Size of the board, typically 9 for Sudoku
-        self.box_length = int(math.sqrt(row_length))
+        self.row_length = row_length  # Size of the board
+        self.box_length = int(math.sqrt(row_length)) # Size of boxes - sqrt of row_length
 
     # Return the current board state
     def get_board(self):
