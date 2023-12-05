@@ -3,18 +3,17 @@ import pygame
 
 class Cell(pygame.sprite.Sprite):
     def __init__(self, pos_x, pos_y, filled_in, text, width, height, font, screen,
-                 default_color='white',
-                 highlight_color='red',
-                 sketched_color='grey',
+                 highlight_color=(255, 0, 0),
                  outline_color=(0, 0, 0),
-                 outline_width=5):
+                 outline_width=2):
 
         super().__init__()
         self.font = font
-        self.default_color = default_color
-        self.highlight_color = highlight_color
-        self.current_color = self.default_color
-        self.sketched_color = sketched_color
+        self.default_background_color = 'white'  # Default cell background color
+        self.highlight_color = 'red'
+        self.default_text_color = 'black'
+        self.sketched_text_color = 'grey'
+        self.current_color = self.default_text_color
         self.screen = screen
         self.filled_in = filled_in
         self.text = str(text)
@@ -29,14 +28,14 @@ class Cell(pygame.sprite.Sprite):
         self.image.fill(self.current_color)
         pygame.draw.rect(self.image, self.outline_color, self.image.get_rect(), self.outline_width)
 
-        text_color = self.default_color if self.filled_in else self.sketched_color
+        text_color = self.default_text_color if self.filled_in else self.sketched_text_color
 
         text_surface = self.font.render(self.text, True, pygame.Color(text_color))
         text_rect = text_surface.get_rect(center=(self.rect.width / 2, self.rect.height / 2))
         self.image.blit(text_surface, text_rect)
 
         if not self.active:
-            self.current_color = self.default_color
+            self.current_color = self.default_background_color
 
     def handle_event(self, event):
         if not self.filled_in:
@@ -48,7 +47,7 @@ class Cell(pygame.sprite.Sprite):
                         self.text = ''
                 else:
                     self.active = False
-                    self.current_color = self.default_color
+                    self.current_color = self.default_text_color
 
             elif event.type == pygame.KEYDOWN and self.active:
                 if event.key == pygame.K_BACKSPACE:
@@ -62,4 +61,3 @@ class Cell(pygame.sprite.Sprite):
 
         else:
             self.active = False
-            self.current_color = self.default_color
