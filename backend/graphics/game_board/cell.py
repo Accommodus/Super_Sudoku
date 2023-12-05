@@ -2,21 +2,19 @@ import pygame
 
 
 class Cell(pygame.sprite.Sprite):
-    def __init__(self, pos_x, pos_y, width, height, font, screen,
-                 filled_in=False,
+    def __init__(self, pos_x, pos_y, filled_in, text, width, height, font, screen,
                  highlight_color=(255, 0, 0),
                  outline_color=(0, 0, 0),
-                 outline_width=2,
-                 default_text=''):
+                 outline_width=2):
 
         super().__init__()
         self.font = font
         self.default_color = 'white'  # Default cell background color
-        self.highlight_color = highlight_color
+        self.highlight_color = 'red'
         self.current_color = self.default_color
         self.screen = screen
         self.filled_in = filled_in
-        self.text = str(default_text)
+        self.text = str(text)
         self.active = False
 
         self.image = pygame.Surface((width, height), pygame.SRCALPHA)
@@ -38,20 +36,24 @@ class Cell(pygame.sprite.Sprite):
             self.current_color = self.default_color
 
     def handle_event(self, event):
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if self.rect.collidepoint(event.pos):
-                self.active = True
-                self.current_color = self.highlight_color
-                if not self.filled_in:
-                    self.text = ''  # Clear the text if it's not a pre-filled cell
-            else:
-                self.active = False
-                self.current_color = self.default_color
+        if not self.filled_in:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if self.rect.collidepoint(event.pos):
+                    self.active = True
+                    self.current_color = self.highlight_color
+                    if not self.text:
+                        self.text = ''
+                else:
+                    self.active = False
+                    self.current_color = self.default_color
 
-        elif event.type == pygame.KEYDOWN and self.active:
-            if event.key == pygame.K_BACKSPACE:
-                self.text = self.text[:-1]
-            elif event.unicode.isdigit() and 1 <= int(event.unicode) <= 9:
-                self.text = event.unicode
-                self.filled_in = True  # Once edited, marks it as filled
+            elif event.type == pygame.KEYDOWN and self.active:
+                if event.key == pygame.K_BACKSPACE:
+                    self.text = self.text[:-1]
+
+                elif event.unicode.isdigit() and 1 <= int(event.unicode) <= 9:
+                    self.text = event.unicode
+
+                elif event.key == pygame.K_KP_ENTER:
+                    self.filled_in = True
 

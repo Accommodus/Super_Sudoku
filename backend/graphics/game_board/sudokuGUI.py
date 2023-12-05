@@ -30,25 +30,28 @@ class GameBoard:
         CELL_HEIGHT = VERTICAL_RATIO - cell_boarder_thickness
         CELL_PARAMETERS = (CELL_WIDTH, CELL_HEIGHT, self.font, 'green', self.screen,)
 
-
         self.cell_group = pygame.sprite.Group()
-
         # Create a cell for each position in the grid
-        for x in range(cell_number):
-            for y in range(cell_number):
+        for y, row in enumerate(game_grid):
+            for x, number in enumerate(row):
                 cell_x_pos = x * HORIZONTAL_RATIO
                 cell_y_pos = y * VERTICAL_RATIO
-                cell = Cell(cell_x_pos, cell_y_pos, *CELL_PARAMETERS)
-                self.cell_group.add(cell)
 
-        self.screen.fill(BG_COLOR)
+                if number != 0 and number is not None:
+                    text = str(number)
+                    cell = Cell(cell_x_pos, cell_y_pos, True, text, *CELL_PARAMETERS)
+
+                else:
+                    text = ''
+                    cell = Cell(cell_x_pos, cell_y_pos, False, text, *CELL_PARAMETERS)
+
+                self.cell_group.add(cell)
 
         #  Game stats
         self.game_grid = game_grid
         self.winner = 0
         self.game_over = False
 
-        #  initialize the game screen
         self.screen.fill(BG_COLOR)
 
     def run(self):
