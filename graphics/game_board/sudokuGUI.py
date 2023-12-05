@@ -5,31 +5,37 @@ from .cell import Cell
 
 
 class GameBoard:
-    def __init__(self, default_screen_width, default_screen_height, game_grid, caption='Sudoku'):
+    def __init__(self, default_screen_width, default_screen_height, game_grid,
+                 caption='Sudoku',
+                 cell_number=9,
+                 cell_boarder_thickness=2):
+
         pygame.init()
         self.screen_width = default_screen_width
         self.screen_height = default_screen_height
         pygame.display.set_caption(caption)
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
 
-        self.chip_font = pygame.font.Font(None, CHIP_FONT)  # 'X' or 'O' font
-        self.font = pygame.font.Font(None, GAME_OVER_FONT)
+        self.font = pygame.font.Font(None, CHIP_FONT)  # Adjust the font size if necessary
 
-        #  Handle cells
-        HORIZONTAL_RATIO = self.screen_width // 9
-        cell_x_pos = [i for i in range(0, self.screen_width, HORIZONTAL_RATIO)]
+        HORIZONTAL_RATIO = self.screen_width // cell_number
+        VERTICAL_RATIO = self.screen_height // cell_number
 
-        VERTICAL_RATIO = self.screen_height // 9
-        cell_y_pos = [i for i in range(0, self.screen_height, VERTICAL_RATIO)]
-
-        CELL_BORDER_THINKNESS = 2
-        CELL_WIDTH = HORIZONTAL_RATIO + CELL_BORDER_THINKNESS
-        CELL_HEIGHT = VERTICAL_RATIO + CELL_BORDER_THINKNESS
-        CELL_PARAMETERS = (CELL_WIDTH, CELL_HEIGHT, self.font, 'black', self.screen,)
+        CELL_WIDTH = HORIZONTAL_RATIO - cell_boarder_thickness
+        CELL_HEIGHT = VERTICAL_RATIO - cell_boarder_thickness
+        CELL_PARAMETERS = (CELL_WIDTH, CELL_HEIGHT, self.font, 'yellow', self.screen,)
 
         self.cell_group = pygame.sprite.Group()
-        #Tuple generator to add all cells to cell_group
-        self.cell_group.add(Cell(x_pos, y_pos, *CELL_PARAMETERS) for x_pos, y_pos in zip(cell_x_pos, cell_y_pos))
+
+        # Create a cell for each position in the grid
+        for x in range(cell_number):
+            for y in range(cell_number):
+                cell_x_pos = x * HORIZONTAL_RATIO
+                cell_y_pos = y * VERTICAL_RATIO
+                cell = Cell(cell_x_pos, cell_y_pos, *CELL_PARAMETERS)
+                self.cell_group.add(cell)
+
+        self.screen.fill(BG_COLOR)
 
         #  Game stats
         self.game_grid = game_grid
@@ -48,8 +54,9 @@ class GameBoard:
                     pygame.quit()
                     sys.exit()
 
-                for cell in self.cell_group:
-                    cell.handle_event(event)
+            self.cell_group.update()
+            self.screen.fill('white')
+            self.cell_group.draw(self.screen)
 
             pygame.display.flip()
 
