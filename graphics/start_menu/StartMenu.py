@@ -46,7 +46,8 @@ class StartMenu:
         for option, action in self.start_menu_options.items():
             self.create_menu_option(
                 option,
-                lambda sw=self.screen_width, sh=self.screen_height, act=action: act(sw, sh),
+                #  used to prevent the early execution of the functions, by creating references with parameters
+                lambda width=self.screen_width, height=self.screen_height, act=action: act(width, height),
                 self.screen_width // 2,
                 current_y_pos,
                 self.font

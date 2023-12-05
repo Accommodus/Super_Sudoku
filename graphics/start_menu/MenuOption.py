@@ -25,10 +25,6 @@ class MenuOption(pygame.sprite.Sprite):
         self.screen = screen
         self.parameters = parameters
 
-        print(parameters, len(parameters))
-        print(*parameters)
-        print()
-
         self.image = self.font.render(self.text, True, self.color)
         self.rect = self.image.get_rect(center=(pos_x, pos_y))
 

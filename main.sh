@@ -1,1 +1,1 @@
-python3 sudoku.py
+python3 main.py
