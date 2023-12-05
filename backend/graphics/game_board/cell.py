@@ -54,6 +54,9 @@ class Cell(pygame.sprite.Sprite):
                 elif event.unicode.isdigit() and 1 <= int(event.unicode) <= 9:
                     self.text = event.unicode
 
-                elif event.key == pygame.K_KP_ENTER:
+                elif event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
                     self.filled_in = True
 
+        else:
+            self.active = False
+            self.current_color = self.default_color
