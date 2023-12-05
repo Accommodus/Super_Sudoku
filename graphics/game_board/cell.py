@@ -4,7 +4,7 @@ import pygame
 class Cell(pygame.sprite.Sprite):
 
     def __init__(self, pos_x, pos_y, width, height, font, color, screen,
-                 default_text='',
+                 filled_in = False,
                  highlight_color=(255, 0, 0),
                  outline_color=(0, 0, 0),
                  outline_width=2):
@@ -15,8 +15,8 @@ class Cell(pygame.sprite.Sprite):
         self.highlight_color = highlight_color
         self.current_color = self.default_color
         self.screen = screen
-        self.text = str(default_text)
         self.active = False
+        self.filled_in = filled_in
 
         self.image = pygame.Surface((width, height), pygame.SRCALPHA)
         self.rect = self.image.get_rect(topleft=(pos_x, pos_y))
@@ -28,7 +28,7 @@ class Cell(pygame.sprite.Sprite):
 
         pygame.draw.rect(self.image, self.outline_color, self.image.get_rect(), self.outline_width)
 
-        text_surface = self.font.render(self.text, True, (0, 0, 0))
+        text_surface = self.font.render('sdf', True, (0, 0, 0))
         self.image.blit(text_surface, (5, (self.rect.height - text_surface.get_height()) // 2))
 
         if not self.active:
@@ -36,14 +36,10 @@ class Cell(pygame.sprite.Sprite):
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if self.rect.collidepoint(event.pos):
+            if self.rect.collidepoint(event.pos) and not self.filled_in:
                 self.active = True
                 self.current_color = self.highlight_color
-                if not self.text:
-                    self.text = ''
+
             else:
                 self.active = False
                 self.current_color = self.default_color
-
-    def get_text(self):
-        return self.text
