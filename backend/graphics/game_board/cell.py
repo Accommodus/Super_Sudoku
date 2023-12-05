@@ -53,5 +53,5 @@ class Cell(pygame.sprite.Sprite):
                 self.text = self.text[:-1]
             elif event.unicode.isdigit() and 1 <= int(event.unicode) <= 9:
                 self.text = event.unicode
-                self.filled_in = True  # Once edited, mark it as filled
+                self.filled_in = True  # Once edited, marks it as filled
 

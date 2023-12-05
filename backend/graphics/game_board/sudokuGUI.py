@@ -19,7 +19,7 @@ class GameBoard:
         FONT_SIZE_PROPORTION = 0.05  # % of the average screen dimension
         MIN_FONT_SIZE = 1
 
-        average_screen_dimension = (self.screen_width + self.screen_height) / 2
+        average_screen_dimension = (self.screen_width + self.screen_height) // 2
         font_size = max(int(average_screen_dimension * FONT_SIZE_PROPORTION), MIN_FONT_SIZE)
         self.font = pygame.font.Font(None, font_size)
 

@@ -34,8 +34,14 @@ class StartMenu:
         self.start_menu_options = start_menu_options
 
         pygame.font.init()
-        self.font = pygame.font.Font(None, 36)  # Regular font
-        self.bold_font = pygame.font.Font(None, 36)  # Bold font
+        FONT_SIZE_PROPORTION = 0.1  # % of the average screen dimension
+        MIN_FONT_SIZE = 1
+
+        average_screen_dimension = (self.screen_width + self.screen_height) // 2
+        font_size = max(int(average_screen_dimension * FONT_SIZE_PROPORTION), MIN_FONT_SIZE)
+
+        self.font = pygame.font.Font(None, font_size)  # Regular font
+        self.bold_font = pygame.font.Font(None, font_size)  # Bold font
         self.bold_font.set_bold(True)
         self.menu_options = pygame.sprite.Group()
 
@@ -62,7 +68,7 @@ class StartMenu:
                                 current_y_pos, self.bold_font, (255, 0, 0))
 
         #  Screen size menu items
-        TEXT_BOX_WIDTH = self.screen_width // 3 + 40
+        TEXT_BOX_WIDTH = self.screen_width // 3 + font_size + 10
         TEXT_BOX_HEIGHT = TEXT_BOX_WIDTH // 4
 
         current_y_pos += self.screen_height // 6
