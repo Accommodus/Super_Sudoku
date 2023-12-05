@@ -26,7 +26,9 @@ class GameBoard:
         CELL_WIDTH = HORIZONTAL_RATIO + CELL_BORDER_THINKNESS
         CELL_HEIGHT = VERTICAL_RATIO + CELL_BORDER_THINKNESS
         CELL_PARAMETERS = (CELL_WIDTH, CELL_HEIGHT, self.font, 'black', self.screen,)
-        self.cells = [Cell(x_pos, y_pos, *CELL_PARAMETERS) for x_pos, y_pos in zip(cell_x_pos, cell_y_pos)]
+
+        self.cell_group = pygame.sprite.Group()
+        self.cell_group.add(Cell(x_pos, y_pos, *CELL_PARAMETERS) for x_pos, y_pos in zip(cell_x_pos, cell_y_pos))
 
         #  Game stats
         self.game_grid = game_grid
@@ -44,9 +46,6 @@ class GameBoard:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-
-            for cell in self.cells:
-                cell.update()
 
             pygame.display.flip()
 
