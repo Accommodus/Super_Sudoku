@@ -1,23 +1,33 @@
 from graphics.start_menu.StartMenu import StartMenu
-from graphics.game_board import sudokuGUI
+from graphics.game_board.sudokuGUI import GameBoard
+from game_logic.sudoku_generator import generate_sudoku
 import pygame
 
 
 def start_easy(screen_width, screen_height):
     pygame.quit()
-    board = sudokuGUI.GameBoard(screen_width, screen_height, 10)
+
+    game_grid = generate_sudoku(9, 10)
+
+    board = GameBoard(screen_width, screen_height, game_grid)
     board.run()
 
 
 def start_medium(screen_width, screen_height):
     pygame.quit()
-    board = sudokuGUI.GameBoard(screen_width, screen_height, 10)
+
+    game_grid = generate_sudoku(9, 20)
+
+    board = GameBoard(screen_width, screen_height, game_grid)
     board.run()
 
 
 def start_hard(screen_width, screen_height):
     pygame.quit()
-    board = sudokuGUI.GameBoard(screen_width, screen_height, 10)
+
+    game_grid = generate_sudoku(9, 30)
+
+    board = GameBoard(screen_width, screen_height, game_grid)
     board.run()
 
 
