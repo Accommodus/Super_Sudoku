@@ -28,7 +28,7 @@ class GameBoard:
 
         CELL_WIDTH = HORIZONTAL_RATIO - cell_boarder_thickness
         CELL_HEIGHT = VERTICAL_RATIO - cell_boarder_thickness
-        CELL_PARAMETERS = (CELL_WIDTH, CELL_HEIGHT, self.font, 'green', self.screen,)
+        CELL_PARAMETERS = (CELL_WIDTH, CELL_HEIGHT, self.font, self.screen,)
 
         self.cell_group = pygame.sprite.Group()
         # Create a cell for each position in the grid
@@ -38,6 +38,7 @@ class GameBoard:
                 cell_y_pos = y * VERTICAL_RATIO
 
                 if number != 0 and number is not None:
+                    print(number)
                     text = str(number)
                     cell = Cell(cell_x_pos, cell_y_pos, True, text, *CELL_PARAMETERS)
 

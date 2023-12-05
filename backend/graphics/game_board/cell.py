@@ -3,15 +3,18 @@ import pygame
 
 class Cell(pygame.sprite.Sprite):
     def __init__(self, pos_x, pos_y, filled_in, text, width, height, font, screen,
-                 highlight_color=(255, 0, 0),
+                 default_color='white',
+                 highlight_color='red',
+                 sketched_color='grey',
                  outline_color=(0, 0, 0),
-                 outline_width=2):
+                 outline_width=5):
 
         super().__init__()
         self.font = font
-        self.default_color = 'white'  # Default cell background color
-        self.highlight_color = 'red'
+        self.default_color = default_color
+        self.highlight_color = highlight_color
         self.current_color = self.default_color
+        self.sketched_color = sketched_color
         self.screen = screen
         self.filled_in = filled_in
         self.text = str(text)
@@ -26,7 +29,7 @@ class Cell(pygame.sprite.Sprite):
         self.image.fill(self.current_color)
         pygame.draw.rect(self.image, self.outline_color, self.image.get_rect(), self.outline_width)
 
-        text_color = 'black' if self.filled_in else 'grey'
+        text_color = self.default_color if self.filled_in else self.sketched_color
 
         text_surface = self.font.render(self.text, True, pygame.Color(text_color))
         text_rect = text_surface.get_rect(center=(self.rect.width / 2, self.rect.height / 2))
