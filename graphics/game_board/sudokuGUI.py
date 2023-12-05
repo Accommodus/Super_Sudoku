@@ -16,7 +16,7 @@ class GameBoard:
         pygame.display.set_caption(caption)
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
 
-        FONT_SIZE_PROPORTION = 0.05  # 2% of the average screen dimension
+        FONT_SIZE_PROPORTION = 0.05  # % of the average screen dimension
         MIN_FONT_SIZE = 1
 
         average_screen_dimension = (self.screen_width + self.screen_height) / 2
