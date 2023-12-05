@@ -1,6 +1,6 @@
-from graphics.start_menu.StartMenu import StartMenu
-from graphics.game_board.sudokuGUI import GameBoard
-from game_logic.sudoku_generator import generate_sudoku
+from backend.graphics.start_menu.StartMenu import StartMenu
+from backend.graphics.game_board.sudokuGUI import GameBoard
+from backend.game_logic.sudoku_generator import generate_sudoku
 import pygame
 
 
