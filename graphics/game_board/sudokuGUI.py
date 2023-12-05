@@ -28,6 +28,7 @@ class GameBoard:
         CELL_PARAMETERS = (CELL_WIDTH, CELL_HEIGHT, self.font, 'black', self.screen,)
 
         self.cell_group = pygame.sprite.Group()
+        #Tuple generator to add all cells to cell_group
         self.cell_group.add(Cell(x_pos, y_pos, *CELL_PARAMETERS) for x_pos, y_pos in zip(cell_x_pos, cell_y_pos))
 
         #  Game stats
@@ -46,6 +47,9 @@ class GameBoard:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+
+                for cell in self.cell_group:
+                    cell.handle_event(event)
 
             pygame.display.flip()
 
