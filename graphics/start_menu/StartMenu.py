@@ -31,19 +31,19 @@ class StartMenu:
         self.screen_height = default_screen_height
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
 
-        pygame.font.init()
+        self.start_menu_options = start_menu_options
 
+        pygame.font.init()
         self.font = pygame.font.Font(None, 36)  # Regular font
         self.bold_font = pygame.font.Font(None, 36)  # Bold font
-        self.bold_font.set_bold(True)  # Set the font to bold
+        self.bold_font.set_bold(True)
         self.menu_options = pygame.sprite.Group()
 
         START_MENU_OPTIONS_POS_Y = self.screen_height // 8
         START_MENU_OPTIONS_BUFFER = self.screen_height // 20
-
         # Game menu items
         current_y_pos = START_MENU_OPTIONS_POS_Y  # variable that keeps track of the y_pos of each menu item
-        for option, action in start_menu_options.items():
+        for option, action in self.start_menu_options.items():
             self.create_menu_option(
                 option,
                 lambda sw=self.screen_width, sh=self.screen_height, act=action: act(sw, sh),
@@ -60,7 +60,7 @@ class StartMenu:
         self.create_menu_option("Quit Game", self.quit_game, self.screen_width // 2,
                                 current_y_pos, self.bold_font, (255, 0, 0))
 
-        #  Width and height menu items
+        #  Screen size menu items
         TEXT_BOX_WIDTH = self.screen_width // 3 + 40
         TEXT_BOX_HEIGHT = TEXT_BOX_WIDTH // 4
 
@@ -94,7 +94,7 @@ class StartMenu:
         self.error_message = None
 
     def create_menu_option(self, text, action, pos_x, pos_y, font, color=(0, 0, 0), *parameters):
-        option = MenuOption(text, action, pos_x, pos_y, font, color, self.screen, parameters)
+        option = MenuOption(text, action, pos_x, pos_y, font, color, self.screen, *parameters)
         self.menu_options.add(option)
 
     def apply_screen_size(self):
