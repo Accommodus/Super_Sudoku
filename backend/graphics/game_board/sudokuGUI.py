@@ -3,6 +3,7 @@ import sys
 
 from .cell import Cell
 from ...game_logic.ValidSudoku import is_valid_sudoku
+from .winLose import EndGameScreen
 
 class GameBoard:
     def __init__(self, default_screen_width, default_screen_height, game_grid,
@@ -11,7 +12,7 @@ class GameBoard:
                  cell_boarder_thickness=6,
                  background_color='white'):
 
-        self.game_grid = game_grid
+        self.initial_game_grid = game_grid
 
         pygame.init()
         self.screen_width = default_screen_width
@@ -66,18 +67,20 @@ class GameBoard:
                 every_celled_filled_in = all([cell.filled_in for cell in self.cell_group])
 
                 if every_celled_filled_in:
-                    self.game_grid = []
+                    game_grid = []
                     current_row = []
                     for cell in self.cell_group:
                         current_row.append(int(cell.text))
 
                         if len(current_row) == 9:
-                            self.game_grid.append(current_row)
+                            game_grid.append(current_row)
                             current_row = []  # Reset current_row here
 
-                    if is_valid_sudoku(self.game_grid):
-                        print('winner')
+
+
+                    if is_valid_sudoku(game_grid):
                         pygame.quit()
+                        EndGameScreen()
 
                     else:
                         print('loser')
