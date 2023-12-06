@@ -5,7 +5,6 @@ from .constant import *
 from .cell import Cell
 from ...game_logic.ValidSudoku import is_valid_sudoku
 
-
 class GameBoard:
     def __init__(self, default_screen_width, default_screen_height, game_grid,
                  caption='Sudoku',
