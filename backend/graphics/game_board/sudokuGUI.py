@@ -76,15 +76,15 @@ class GameBoard:
                             game_grid.append(current_row)
                             current_row = []  # Reset current_row here
 
+                    is_winner = is_valid_sudoku(game_grid)
 
+                    pygame.quit()
+                    game_over_screen = EndGameScreen(self.screen_width,
+                                                     self.screen_height,
+                                                     is_winner,
+                                                     self.initial_game_grid)
 
-                    if is_valid_sudoku(game_grid):
-                        pygame.quit()
-                        EndGameScreen()
-
-                    else:
-                        print('loser')
-                        pygame.quit()
+                    game_over_screen.run()
 
             self.cell_group.update()
             self.screen.fill(self.background_color)
