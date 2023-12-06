@@ -2,6 +2,8 @@ import sys
 import pygame
 from .TextBox import TextBox
 from .MenuOption import MenuOption
+from ...game_logic.sudoku_generator import generate_sudoku
+from ..game_board.sudokuGUI import GameBoard
 
 
 class StartMenu:
@@ -26,12 +28,10 @@ class StartMenu:
     - quit_game(): method to handle game quitting action
     """
 
-    def __init__(self, default_screen_width, default_screen_height, start_menu_options):
+    def __init__(self, default_screen_width, default_screen_height):
         self.screen_width = default_screen_width
         self.screen_height = default_screen_height
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
-
-        self.start_menu_options = start_menu_options
 
         pygame.font.init()
         FONT_SIZE_PROPORTION = 0.1  # % of the average screen dimension
@@ -48,6 +48,15 @@ class StartMenu:
         START_MENU_OPTIONS_POS_Y = self.screen_height // 8
         START_MENU_OPTIONS_BUFFER = self.screen_height // 20
         # Game menu items
+
+        # {"menu_label": menu_function}
+        start_menu_options = {
+            "Easy": start_easy,
+            "Medium": start_medium,
+            "Hard": start_hard
+        }
+        self.start_menu_options = start_menu_options
+
         current_y_pos = START_MENU_OPTIONS_POS_Y  # variable that keeps track of the y_pos of each menu item
         for option, action in self.start_menu_options.items():
             self.create_menu_option(
@@ -119,7 +128,7 @@ class StartMenu:
             return
 
         pygame.quit()
-        new_menu = StartMenu(new_width, new_height, self.start_menu_options)
+        new_menu = StartMenu(new_width, new_height)
         new_menu.run()
 
     def run(self):
@@ -147,3 +156,30 @@ class StartMenu:
     def quit_game():
         pygame.quit()
         sys.exit()
+
+
+def start_easy(screen_width, screen_height):
+    pygame.quit()
+
+    game_grid = generate_sudoku(9, 30)
+
+    board = GameBoard(screen_width, screen_height, game_grid)
+    board.run()
+
+
+def start_medium(screen_width, screen_height):
+    pygame.quit()
+
+    game_grid = generate_sudoku(9, 40)
+
+    board = GameBoard(screen_width, screen_height, game_grid)
+    board.run()
+
+
+def start_hard(screen_width, screen_height):
+    pygame.quit()
+
+    game_grid = generate_sudoku(9, 50)
+
+    board = GameBoard(screen_width, screen_height, game_grid)
+    board.run()

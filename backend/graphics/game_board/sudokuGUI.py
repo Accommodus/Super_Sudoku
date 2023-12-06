@@ -1,7 +1,6 @@
 import pygame
 import sys
 
-from .constant import *
 from .cell import Cell
 from ...game_logic.ValidSudoku import is_valid_sudoku
 
@@ -9,7 +8,8 @@ class GameBoard:
     def __init__(self, default_screen_width, default_screen_height, game_grid,
                  caption='Sudoku',
                  cell_number=9,
-                 cell_boarder_thickness=6):
+                 cell_boarder_thickness=6,
+                 background_color='white'):
 
         self.game_grid = game_grid
 
@@ -18,6 +18,8 @@ class GameBoard:
         self.screen_height = default_screen_height
         pygame.display.set_caption(caption)
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
+
+        self.background_color = background_color
 
         FONT_SIZE_PROPORTION = 0.05  # % of the average screen dimension
         MIN_FONT_SIZE = 1
@@ -73,10 +75,6 @@ class GameBoard:
                             self.game_grid.append(current_row)
                             current_row = []  # Reset current_row here
 
-                    print(self.game_grid)
-
-                    print(self.game_grid)
-
                     if is_valid_sudoku(self.game_grid):
                         print('winner')
                         pygame.quit()
@@ -86,7 +84,7 @@ class GameBoard:
                         pygame.quit()
 
             self.cell_group.update()
-            self.screen.fill(BG_COLOR)
+            self.screen.fill(self.background_color)
             self.cell_group.draw(self.screen)
 
             pygame.display.flip()
