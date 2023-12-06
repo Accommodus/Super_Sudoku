@@ -19,7 +19,7 @@ def generate_bottom_button_group(screen_width, screen_height, section_ratio, fon
     x_pos = screen_width // 2
 
     bottom_menu_options = {
-        "Quit Game": quit_game,
+        "Exit": quit_game,
         "Restart": lambda width=screen_width, height=screen_height, act=restart: act(width, height),
         "Reset": lambda width=screen_width, height=screen_height, grid=grid, act=reset: act(width, height, grid)
     }
