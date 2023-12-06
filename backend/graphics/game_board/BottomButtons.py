@@ -25,7 +25,7 @@ def generate_bottom_button_group(screen_width, screen_height, section_ratio, fon
         button = create_button(
             option,
             #  used to prevent the early execution of the functions, by creating references with parameters
-            lambda: action,
+            action,
             current_x_pos,
             y_pos,
             font,
@@ -54,7 +54,7 @@ def restart(screen_width, screen_height):
 
 
 def reset(screen_width, screen_height, grid):
-    new_board = GameBoard(screen_width, screen_height, grid)
-
     pygame.quit()
+
+    new_board = GameBoard(screen_width, screen_height, grid)
     new_board.run()

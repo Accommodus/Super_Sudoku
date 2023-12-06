@@ -36,13 +36,18 @@ class GameBoard:
         VERTICAL_RATIO = (self.screen_height - self.screen_height * self.SPACE_FOR_BUTTONS_RATIO) // cell_number
 
         #  makes bottom sprite group and runs the method to generate the area
+        BUTTON_START_POS = default_screen_width // 4
+        BUTTON_SPACING = default_screen_width // 4
+
         from .BottomButtons import generate_bottom_button_group
         self.bottom_buttons = generate_bottom_button_group(self.screen_width,
                                                            self.screen_height,
                                                            self.SPACE_FOR_BUTTONS_RATIO,
                                                            self.font,
                                                            self.screen,
-                                                           self.initial_game_grid)
+                                                           self.initial_game_grid,
+                                                           BUTTON_START_POS,
+                                                           BUTTON_SPACING)
 
         # Creates cell grid
         CELL_WIDTH = HORIZONTAL_RATIO - cell_boarder_thickness
