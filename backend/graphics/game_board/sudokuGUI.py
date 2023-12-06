@@ -15,24 +15,24 @@ class GameBoard:
 
         self.initial_game_grid = game_grid
 
+        # begins pygame and screen
         pygame.init()
         self.screen_width = default_screen_width
         self.screen_height = default_screen_height
         pygame.display.set_caption(caption)
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
 
+        # generates GUI
         self.background_color = background_color
-
         FONT_SIZE_PROPORTION = 0.05  # % of the average screen dimension
         MIN_FONT_SIZE = 1
-
         average_screen_dimension = (self.screen_width + self.screen_height) // 2
         font_size = max(int(average_screen_dimension * FONT_SIZE_PROPORTION), MIN_FONT_SIZE)
         self.font = pygame.font.Font(None, font_size)
-
         HORIZONTAL_RATIO = self.screen_width // cell_number
-        VERTICAL_RATIO = (self.screen_height - 150) // cell_number  # adds space to bottom for GUI
+        VERTICAL_RATIO = (self.screen_height - 150) // cell_number  # adds space to bottom for sudoku buttons
 
+        # Creates cell grid
         CELL_WIDTH = HORIZONTAL_RATIO - cell_boarder_thickness
         CELL_HEIGHT = VERTICAL_RATIO - cell_boarder_thickness
         CELL_PARAMETERS = (CELL_WIDTH, CELL_HEIGHT, self.font, self.screen,)
@@ -54,6 +54,10 @@ class GameBoard:
 
                 self.cell_group.add(cell)
 
+                #  Used for arrowkey activation
+                self.current_row = 0
+                self.current_col = 0
+
     def run(self):
         while True:
             event_list = pygame.event.get()
@@ -65,9 +69,12 @@ class GameBoard:
                 for cell in self.cell_group:
                     cell.handle_event(event)
 
-                every_celled_filled_in = all([cell.filled_in for cell in self.cell_group])
+                if event.type == pygame.KEYDOWN:
+                    if event.key in [pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT]:
+                        self.move_highlight(event.key)
 
-                #  Win screen
+                # Game Over screen
+                every_celled_filled_in = all([cell.filled_in for cell in self.cell_group])
                 if every_celled_filled_in:
                     game_grid = []
                     current_row = []
@@ -92,3 +99,21 @@ class GameBoard:
             self.cell_group.draw(self.screen)
 
             pygame.display.flip()
+
+    def move_highlight(self, key):
+        cells = list(self.cell_group)  # Convert group to list
+
+        # Deactivate the current cell
+        cells[self.current_row * 9 + self.current_col].set_active(False)
+
+        if key == pygame.K_UP and self.current_row > 0:
+            self.current_row -= 1
+        elif key == pygame.K_DOWN and self.current_row < 8:
+            self.current_row += 1
+        elif key == pygame.K_LEFT and self.current_col > 0:
+            self.current_col -= 1
+        elif key == pygame.K_RIGHT and self.current_col < 8:
+            self.current_col += 1
+
+        # Activate the new cell
+        cells[self.current_row * 9 + self.current_col].set_active(True)
