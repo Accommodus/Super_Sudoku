@@ -48,13 +48,6 @@ class GameBoard:
 
                 self.cell_group.add(cell)
 
-        #  Game stats
-        self.game_grid = game_grid
-        self.winner = 0
-        self.game_over = False
-
-        self.screen.fill(BG_COLOR)
-
     def run(self):
         while True:
             event_list = pygame.event.get()
@@ -65,6 +58,8 @@ class GameBoard:
 
                 for cell in self.cell_group:
                     cell.handle_event(event)
+
+                #
 
             self.cell_group.update()
             self.screen.fill(BG_COLOR)

@@ -3,16 +3,19 @@ import pygame
 
 class Cell(pygame.sprite.Sprite):
     def __init__(self, pos_x, pos_y, filled_in, text, width, height, font, screen,
-                 highlight_color=(255, 0, 0),
+                 highlight_color='red',
                  outline_color=(0, 0, 0),
-                 outline_width=2):
+                 outline_width=2,
+                 default_background_color='white',
+                 default_text_color='black',
+                 sketched_text_color='grey'):
 
         super().__init__()
         self.font = font
-        self.default_background_color = 'white'  # Default cell background color
-        self.highlight_color = 'red'
-        self.default_text_color = 'black'
-        self.sketched_text_color = 'grey'
+        self.default_background_color = default_background_color
+        self.highlight_color = highlight_color
+        self.default_text_color = default_text_color
+        self.sketched_text_color = sketched_text_color
         self.current_color = self.default_text_color
         self.screen = screen
         self.filled_in = filled_in
@@ -56,7 +59,8 @@ class Cell(pygame.sprite.Sprite):
                 elif event.unicode.isdigit() and 1 <= int(event.unicode) <= 9:
                     self.text = event.unicode
 
-                elif event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
+                # avoids empty strings
+                elif (event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER) and self.text != '':
                     self.filled_in = True
 
         else:
