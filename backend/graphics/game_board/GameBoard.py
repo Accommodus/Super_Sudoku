@@ -1,10 +1,10 @@
 import pygame
 import sys
 
-from .cell import Cell
+from .Cell import Cell
 from ...game_logic.ValidSudoku import is_valid_sudoku
-from .winLose import EndGameScreen
-from ..start_menu.MenuOption import MenuOption
+from .EndGameScreen import EndGameScreen
+
 
 class GameBoard:
     def __init__(self, default_screen_width, default_screen_height, game_grid,
@@ -36,8 +36,13 @@ class GameBoard:
         VERTICAL_RATIO = (self.screen_height - self.screen_height * self.SPACE_FOR_BUTTONS_RATIO) // cell_number
 
         #  makes bottom sprite group and runs the method to generate the area
-        self.bottom_buttons = pygame.sprite.Group()
-        self.bottom_GUI()
+        from .BottomButtons import generate_bottom_button_group
+        self.bottom_buttons = generate_bottom_button_group(self.screen_width,
+                                                           self.screen_height,
+                                                           self.SPACE_FOR_BUTTONS_RATIO,
+                                                           self.font,
+                                                           self.screen,
+                                                           self.initial_game_grid)
 
         # Creates cell grid
         CELL_WIDTH = HORIZONTAL_RATIO - cell_boarder_thickness
@@ -74,7 +79,8 @@ class GameBoard:
             event_list = pygame.event.get()
             for event in event_list:
                 if event.type == pygame.QUIT:
-                    quit_game()
+                    pygame.quit()
+                    sys.exit()
 
                 for cell in self.cell_group:
                     cell.handle_event(event)

@@ -3,7 +3,7 @@ import pygame
 from .TextBox import TextBox
 from .MenuOption import MenuOption
 from ...game_logic.sudoku_generator import generate_sudoku
-from ..game_board.sudokuGUI import GameBoard
+from ..game_board.GameBoard import GameBoard
 
 
 class StartMenu:
