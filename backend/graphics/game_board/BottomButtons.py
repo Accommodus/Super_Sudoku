@@ -8,6 +8,11 @@ from .GameBoard import GameBoard
 def generate_bottom_button_group(screen_width, screen_height, section_ratio, font, screen, grid,
                                  button_start_x_pos=0,
                                  button_spacing=50):
+    """
+    Generates a group of UI buttons for the sudoku puzzle UI
+
+    Returns: pygame sprite group
+    """
 
     # finds the middle y-value of the button space
     y_pos = screen_height - (screen_height * section_ratio) // 2

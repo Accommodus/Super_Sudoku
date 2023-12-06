@@ -161,7 +161,7 @@ class StartMenu:
 def start_easy(screen_width, screen_height):
     pygame.quit()
 
-    game_grid = generate_sudoku(9, 1)
+    game_grid = generate_sudoku(9, 30)
 
     board = GameBoard(screen_width, screen_height, game_grid)
     board.run()

@@ -7,6 +7,10 @@ from .EndGameScreen import EndGameScreen
 
 
 class GameBoard:
+    """
+    Sudoku game board object can be used to create pygame screen
+    """
+
     def __init__(self, default_screen_width, default_screen_height, game_grid,
                  caption='Sudoku',
                  cell_number=9,
@@ -30,7 +34,7 @@ class GameBoard:
         font_size = max(int(average_screen_dimension * FONT_SIZE_PROPORTION), MIN_FONT_SIZE)
         self.font = pygame.font.Font(None, font_size)
 
-        self.SPACE_FOR_BUTTONS_RATIO = 0.15  # % percent of screen dedicated to button space
+        self.SPACE_FOR_BUTTONS_RATIO = 0.1  # % percent of screen dedicated to button space
 
         HORIZONTAL_RATIO = self.screen_width // cell_number
         VERTICAL_RATIO = (self.screen_height - self.screen_height * self.SPACE_FOR_BUTTONS_RATIO) // cell_number

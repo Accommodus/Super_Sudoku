@@ -2,6 +2,11 @@ import pygame
 
 
 class Cell(pygame.sprite.Sprite):
+    """
+    interactive sudoku cell
+
+    """
+
     def __init__(self, pos_x, pos_y, filled_in, text, width, height, font, screen,
                  highlight_color='red',
                  outline_color=(0, 0, 0),

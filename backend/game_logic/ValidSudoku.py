@@ -2,6 +2,12 @@ import math
 
 
 def is_valid_sudoku(board):
+    """
+    Checks if an array is a valid sudoku solution
+
+    Returns: Boolean
+    """
+
     def is_valid_group(group):
         numbers = [num for num in group if num != 0]
         return len(numbers) == len(set(numbers))
