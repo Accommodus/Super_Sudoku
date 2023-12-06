@@ -4,7 +4,7 @@ import sys
 from .cell import Cell
 from ...game_logic.ValidSudoku import is_valid_sudoku
 from .winLose import EndGameScreen
-
+from ..start_menu.MenuOption import MenuOption
 
 class GameBoard:
     def __init__(self, default_screen_width, default_screen_height, game_grid,
@@ -29,14 +29,22 @@ class GameBoard:
         average_screen_dimension = (self.screen_width + self.screen_height) // 2
         font_size = max(int(average_screen_dimension * FONT_SIZE_PROPORTION), MIN_FONT_SIZE)
         self.font = pygame.font.Font(None, font_size)
+
+        self.SPACE_FOR_BUTTONS_RATIO = 0.15  # % percent of screen dedicated to button space
+
         HORIZONTAL_RATIO = self.screen_width // cell_number
-        VERTICAL_RATIO = (self.screen_height - 150) // cell_number  # adds space to bottom for sudoku buttons
+        VERTICAL_RATIO = (self.screen_height - self.screen_height * self.SPACE_FOR_BUTTONS_RATIO) // cell_number
+
+        #  makes bottom sprite group and runs the method to generate the area
+        self.bottom_buttons = pygame.sprite.Group()
+        self.bottom_GUI()
 
         # Creates cell grid
         CELL_WIDTH = HORIZONTAL_RATIO - cell_boarder_thickness
         CELL_HEIGHT = VERTICAL_RATIO - cell_boarder_thickness
         CELL_PARAMETERS = (CELL_WIDTH, CELL_HEIGHT, self.font, self.screen,)
 
+        self.cell_number = cell_number
         self.cell_group = pygame.sprite.Group()
         # Create a cell for each position in the grid
         for y, row in enumerate(game_grid):
@@ -54,17 +62,19 @@ class GameBoard:
 
                 self.cell_group.add(cell)
 
-                #  Used for arrowkey activation
+                #  Used for arrow key activation
                 self.current_row = 0
                 self.current_col = 0
+
+                cells = list(self.cell_group)
+                cells[0].set_active(True)
 
     def run(self):
         while True:
             event_list = pygame.event.get()
             for event in event_list:
                 if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
+                    quit_game()
 
                 for cell in self.cell_group:
                     cell.handle_event(event)
@@ -72,6 +82,9 @@ class GameBoard:
                 if event.type == pygame.KEYDOWN:
                     if event.key in [pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT]:
                         self.move_highlight(event.key)
+
+                for button in self.bottom_buttons:
+                    button.handle_event(event)
 
                 # Game Over screen
                 every_celled_filled_in = all([cell.filled_in for cell in self.cell_group])
@@ -83,7 +96,7 @@ class GameBoard:
 
                         if len(current_row) == 9:
                             game_grid.append(current_row)
-                            current_row = []  # Reset current_row here
+                            current_row = []
 
                     is_winner = is_valid_sudoku(game_grid)
 
@@ -94,17 +107,20 @@ class GameBoard:
 
                     game_over_screen.run()
 
-            self.cell_group.update()
             self.screen.fill(self.background_color)
+
+            self.cell_group.update()
             self.cell_group.draw(self.screen)
+
+            self.bottom_buttons.update(event_list)
+            self.bottom_buttons.draw(self.screen)
 
             pygame.display.flip()
 
     def move_highlight(self, key):
-        cells = list(self.cell_group)  # Convert group to list
-
-        # Deactivate the current cell
-        cells[self.current_row * 9 + self.current_col].set_active(False)
+        # Deactivate all other cells
+        for cell in self.cell_group:
+            cell.set_active(False)
 
         if key == pygame.K_UP and self.current_row > 0:
             self.current_row -= 1
@@ -115,5 +131,43 @@ class GameBoard:
         elif key == pygame.K_RIGHT and self.current_col < 8:
             self.current_col += 1
 
-        # Activate the new cell
-        cells[self.current_row * 9 + self.current_col].set_active(True)
+        cells = list(self.cell_group)
+        # Activate the new cell, by finding the index of the cell
+        cells[self.current_row * self.cell_number + self.current_col].set_active(True)
+
+    def bottom_GUI(self):
+        # finds the middle y-value of the button space
+        y_pos = self.screen_height - (self.screen_height * self.SPACE_FOR_BUTTONS_RATIO) // 2
+        x_pos = self.screen_width // 2
+
+        buttom_menu_options = {
+
+        }
+
+        for option, action in self.start_menu_options.items():
+            self.create_menu_option(
+                option,
+                #  used to prevent the early execution of the functions, by creating references with parameters
+                lambda width=self.screen_width, height=self.screen_height, act=action: act(width, height),
+                self.screen_width // 2,
+                current_y_pos,
+                self.font
+            )
+
+        quit_game = MenuOption("Quit Game", self.quit_game(), x_pos, y_pos, self.font, 'red', self.screen)
+        restart = MenuOption("Restart", self.restart(), x_pos, y_pos, self.font, 'black', self.screen)
+
+        self.bottom_buttons.add(quit_game, restart)
+
+    def create_menu_option(self, text, action, pos_x, pos_y, font, color='b', *parameters):
+        option = MenuOption(text, action, pos_x, pos_y, font, color, self.screen, *parameters)
+        self.bottom_buttons.add(option)
+
+    @staticmethod
+    def quit_game():
+        pygame.quit()
+        sys.exit()
+
+    def restart(self):
+        new_menu = StartMenu(self.screen_width, self.screen_height)
+        new_menu.run()
