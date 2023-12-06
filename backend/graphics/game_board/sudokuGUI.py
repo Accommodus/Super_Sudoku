@@ -5,6 +5,7 @@ from .cell import Cell
 from ...game_logic.ValidSudoku import is_valid_sudoku
 from .winLose import EndGameScreen
 
+
 class GameBoard:
     def __init__(self, default_screen_width, default_screen_height, game_grid,
                  caption='Sudoku',
@@ -66,6 +67,7 @@ class GameBoard:
 
                 every_celled_filled_in = all([cell.filled_in for cell in self.cell_group])
 
+                #  Win screen
                 if every_celled_filled_in:
                     game_grid = []
                     current_row = []
@@ -81,8 +83,7 @@ class GameBoard:
                     pygame.quit()
                     game_over_screen = EndGameScreen(self.screen_width,
                                                      self.screen_height,
-                                                     is_winner,
-                                                     self.initial_game_grid)
+                                                     is_winner)
 
                     game_over_screen.run()
 

@@ -43,27 +43,24 @@ class Cell(pygame.sprite.Sprite):
             self.current_color = self.default_background_color
 
     def handle_event(self, event):
-        if not self.filled_in:
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if self.rect.collidepoint(event.pos):
-                    self.active = True
-                    self.current_color = self.highlight_color
-                    if not self.text:
-                        self.text = ''
-                else:
-                    self.active = False
-                    self.current_color = self.default_text_color
+        # Allow highlighting for all cells
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if self.rect.collidepoint(event.pos):
+                self.set_active(True)
+            else:
+                self.set_active(False)
 
-            elif event.type == pygame.KEYDOWN and self.active:
+        # Allow editing only active if not filled in
+        if not self.filled_in and self.active:
+            if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_BACKSPACE:
                     self.text = self.text[:-1]
-
                 elif event.unicode.isdigit() and 1 <= int(event.unicode) <= 9:
                     self.text = event.unicode
-
-                # avoids empty strings
                 elif (event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER) and self.text != '':
                     self.filled_in = True
+                    self.set_active(False)
 
-        else:
-            self.active = False
+    def set_active(self, boole):
+        self.active = boole
+        self.current_color = self.highlight_color if self.active else self.default_background_color

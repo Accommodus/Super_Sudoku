@@ -4,11 +4,10 @@ from ..start_menu.MenuOption import MenuOption
 
 
 class EndGameScreen:
-    def __init__(self, default_screen_width, default_screen_height, won_game, game_grid):
+    def __init__(self, default_screen_width, default_screen_height, won_game):
         self.screen_width = default_screen_width
         self.screen_height = default_screen_height
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
-        self.game_grid = game_grid
 
         pygame.font.init()
         FONT_SIZE_PROPORTION = 0.1  # % of the average screen dimension
