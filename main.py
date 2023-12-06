@@ -9,7 +9,7 @@ from backend.game_logic.sudoku_generator import generate_sudoku
 def start_easy(screen_width, screen_height):
     pygame.quit()
 
-    game_grid = generate_sudoku(9, 10)
+    game_grid = generate_sudoku(9, 30)
 
     board = GameBoard(screen_width, screen_height, game_grid)
     board.run()
@@ -18,7 +18,7 @@ def start_easy(screen_width, screen_height):
 def start_medium(screen_width, screen_height):
     pygame.quit()
 
-    game_grid = generate_sudoku(9, 20)
+    game_grid = generate_sudoku(9, 40)
 
     board = GameBoard(screen_width, screen_height, game_grid)
     board.run()
@@ -27,7 +27,7 @@ def start_medium(screen_width, screen_height):
 def start_hard(screen_width, screen_height):
     pygame.quit()
 
-    game_grid = generate_sudoku(9, 30)
+    game_grid = generate_sudoku(9, 50)
 
     board = GameBoard(screen_width, screen_height, game_grid)
     board.run()
