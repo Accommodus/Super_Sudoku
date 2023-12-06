@@ -1,7 +1,6 @@
 import pygame
 import sys
 from ..start_menu.MenuOption import MenuOption
-from ..start_menu.StartMenu import StartMenu
 
 
 class EndGameScreen:
@@ -9,6 +8,7 @@ class EndGameScreen:
         self.screen_width = default_screen_width
         self.screen_height = default_screen_height
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
+        self.game_grid = game_grid
 
         pygame.font.init()
         FONT_SIZE_PROPORTION = 0.1  # % of the average screen dimension
@@ -25,20 +25,12 @@ class EndGameScreen:
 
         # Menu Options
         menu_y_pos = self.screen_height // 2
-        if not won_game:
-            # Add Restart option only if the player lost
-            self.add_menu_option("Restart", self.restart_game, self.screen_width // 2, menu_y_pos)
-            menu_y_pos += font_size + 20
 
-        # Quit Game option
         self.add_menu_option("Quit Game", self.quit_game, self.screen_width // 2, menu_y_pos)
 
     def add_menu_option(self, text, action, pos_x, pos_y):
         option = MenuOption(text, action, pos_x, pos_y, self.font, (0, 0, 0), self.screen)
         self.menu_options.add(option)
-
-    def restart_game(self):
-        pass
 
     @staticmethod
     def quit_game():
