@@ -1,9 +1,9 @@
 import pygame
 import sys
-import math
 
 from .constant import *
 from .cell import Cell
+from ...game_logic.ValidSudoku import is_valid_sudoku
 
 
 class GameBoard:
@@ -42,7 +42,6 @@ class GameBoard:
                 cell_y_pos = y * VERTICAL_RATIO
 
                 if number != 0 and number is not None:
-                    print(number)
                     text = str(number)
                     cell = Cell(cell_x_pos, cell_y_pos, True, text, *CELL_PARAMETERS)
 
@@ -64,13 +63,22 @@ class GameBoard:
                     cell.handle_event(event)
 
                 every_celled_filled_in = all([cell.filled_in for cell in self.cell_group])
-                print(self.game_grid)
 
                 if every_celled_filled_in:
-
                     self.game_grid = []
+                    current_row = []
+                    for cell in self.cell_group:
+                        current_row.append(int(cell.text))
 
-                    if self.is_valid_sudoku(self.game_grid):
+                        if len(current_row) == 9:
+                            self.game_grid.append(current_row)
+                            current_row = []  # Reset current_row here
+
+                    print(self.game_grid)
+
+                    print(self.game_grid)
+
+                    if is_valid_sudoku(self.game_grid):
                         print('winner')
                         pygame.quit()
 

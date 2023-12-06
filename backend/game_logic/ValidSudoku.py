@@ -1,3 +1,6 @@
+import math
+
+
 def is_valid_sudoku(board):
     def is_valid_group(group):
         numbers = [num for num in group if num != 0]
