@@ -141,33 +141,31 @@ class GameBoard:
         x_pos = self.screen_width // 2
 
         buttom_menu_options = {
+            "Quit Game": quit_game,
+            "Restart": restart
 
         }
 
-        for option, action in self.start_menu_options.items():
+        for option, action in buttom_menu_options.items():
             self.create_menu_option(
                 option,
                 #  used to prevent the early execution of the functions, by creating references with parameters
-                lambda width=self.screen_width, height=self.screen_height, act=action: act(width, height),
-                self.screen_width // 2,
-                current_y_pos,
+                lambda: action,
+                x_pos,
+                y_pos,
                 self.font
             )
 
-        quit_game = MenuOption("Quit Game", self.quit_game(), x_pos, y_pos, self.font, 'red', self.screen)
-        restart = MenuOption("Restart", self.restart(), x_pos, y_pos, self.font, 'black', self.screen)
-
-        self.bottom_buttons.add(quit_game, restart)
-
-    def create_menu_option(self, text, action, pos_x, pos_y, font, color='b', *parameters):
+    def create_menu_option(self, text, action, pos_x, pos_y, font, color='black', *parameters):
         option = MenuOption(text, action, pos_x, pos_y, font, color, self.screen, *parameters)
         self.bottom_buttons.add(option)
 
-    @staticmethod
-    def quit_game():
-        pygame.quit()
-        sys.exit()
+@staticmethod
+def quit_game():
+    pygame.quit()
+    sys.exit()
 
-    def restart(self):
-        new_menu = StartMenu(self.screen_width, self.screen_height)
+
+def restart(screen_width, screen_height):
+        new_menu = StartMenu(screen_width, screen_height)
         new_menu.run()
