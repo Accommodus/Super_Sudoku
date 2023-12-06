@@ -135,37 +135,3 @@ class GameBoard:
         # Activate the new cell, by finding the index of the cell
         cells[self.current_row * self.cell_number + self.current_col].set_active(True)
 
-    def bottom_GUI(self):
-        # finds the middle y-value of the button space
-        y_pos = self.screen_height - (self.screen_height * self.SPACE_FOR_BUTTONS_RATIO) // 2
-        x_pos = self.screen_width // 2
-
-        buttom_menu_options = {
-            "Quit Game": quit_game,
-            "Restart": restart
-
-        }
-
-        for option, action in buttom_menu_options.items():
-            self.create_menu_option(
-                option,
-                #  used to prevent the early execution of the functions, by creating references with parameters
-                lambda: action,
-                x_pos,
-                y_pos,
-                self.font
-            )
-
-    def create_menu_option(self, text, action, pos_x, pos_y, font, color='black', *parameters):
-        option = MenuOption(text, action, pos_x, pos_y, font, color, self.screen, *parameters)
-        self.bottom_buttons.add(option)
-
-@staticmethod
-def quit_game():
-    pygame.quit()
-    sys.exit()
-
-
-def restart(screen_width, screen_height):
-        new_menu = StartMenu(screen_width, screen_height)
-        new_menu.run()
