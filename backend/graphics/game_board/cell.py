@@ -33,6 +33,8 @@ class Cell(pygame.sprite.Sprite):
 
         text_color = self.default_text_color if self.filled_in else self.sketched_text_color
 
+        pygame.font.init()
+
         text_surface = self.font.render(self.text, True, pygame.Color(text_color))
         text_rect = text_surface.get_rect(center=(self.rect.width / 2, self.rect.height / 2))
         self.image.blit(text_surface, text_rect)

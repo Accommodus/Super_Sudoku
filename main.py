@@ -1,7 +1,9 @@
+import pygame
+import math
+
 from backend.graphics.start_menu.StartMenu import StartMenu
 from backend.graphics.game_board.sudokuGUI import GameBoard
 from backend.game_logic.sudoku_generator import generate_sudoku
-import pygame
 
 
 def start_easy(screen_width, screen_height):
