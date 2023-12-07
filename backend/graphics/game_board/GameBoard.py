@@ -1,5 +1,6 @@
 import pygame
 import sys
+import math
 
 from .Cell import Cell
 from ...game_logic.ValidSudoku import is_valid_sudoku
@@ -8,14 +9,33 @@ from .EndGameScreen import EndGameScreen
 
 class GameBoard:
     """
-    Sudoku game board object can be used to create pygame screen
+    Sudoku game board in Pygame; handles GUI, game logic, and event loop.
+
+    Attributes:
+        initial_game_grid (list): Initial Sudoku puzzle configuration
+        screen_width, screen_height (int): Pygame window dimensions
+        screen (pygame.Surface): Main drawing surface
+        background_color (tuple): Game board background color
+        font (pygame.font.Font): Text rendering font
+        line_color (tuple): Grid line color
+        cell_boarder_thickness (int): Grid cell border thickness
+        cell_number (int): Cells per row/column in Sudoku grid
+        SPACE_FOR_BUTTONS_RATIO (float): Screen portion for GUI buttons
+        bottom_buttons (pygame.sprite.Group): Sprite group for GUI buttons
+        cell_group (pygame.sprite.Group): Sprite group for Sudoku cells
+
+    Methods:
+        run(): Main game loop; event handling and GUI updates
+        move_highlight(key): Highlight movement between cells
+        draw_grid(): Draws Sudoku grid lines, GUI adjusted
     """
 
     def __init__(self, default_screen_width, default_screen_height, game_grid,
                  caption='Sudoku',
                  cell_number=9,
                  cell_boarder_thickness=6,
-                 background_color='white'):
+                 background_color='white',
+                 line_color='black'):
 
         self.initial_game_grid = game_grid
 
@@ -33,6 +53,9 @@ class GameBoard:
         average_screen_dimension = (self.screen_width + self.screen_height) // 2
         font_size = max(int(average_screen_dimension * FONT_SIZE_PROPORTION), MIN_FONT_SIZE)
         self.font = pygame.font.Font(None, font_size)
+        self.line_color = line_color
+        self.cell_boarder_thickness = cell_boarder_thickness
+        self.cell_number = cell_number
 
         self.SPACE_FOR_BUTTONS_RATIO = 0.1  # % percent of screen dedicated to button space
 
@@ -43,7 +66,8 @@ class GameBoard:
         BUTTON_START_POS = default_screen_width // 4
         BUTTON_SPACING = default_screen_width // 4
 
-        from .BottomButtons import generate_bottom_button_group
+        #  Creates the bottom GUI
+        from .BottomButtons import generate_bottom_button_group  # Prevents circular import
         self.bottom_buttons = generate_bottom_button_group(self.screen_width,
                                                            self.screen_height,
                                                            self.SPACE_FOR_BUTTONS_RATIO,
@@ -54,11 +78,10 @@ class GameBoard:
                                                            BUTTON_SPACING)
 
         # Creates cell grid
-        CELL_WIDTH = HORIZONTAL_RATIO - cell_boarder_thickness
-        CELL_HEIGHT = VERTICAL_RATIO - cell_boarder_thickness
+        CELL_WIDTH = HORIZONTAL_RATIO
+        CELL_HEIGHT = VERTICAL_RATIO
         CELL_PARAMETERS = (CELL_WIDTH, CELL_HEIGHT, self.font, self.screen,)
 
-        self.cell_number = cell_number
         self.cell_group = pygame.sprite.Group()
         # Create a cell for each position in the grid
         for y, row in enumerate(game_grid):
@@ -124,9 +147,14 @@ class GameBoard:
 
             self.screen.fill(self.background_color)
 
+            #  updates the cell group
             self.cell_group.update()
             self.cell_group.draw(self.screen)
 
+            # updates the grid
+            self.draw_grid()
+
+            # updates the bottom GUI
             self.bottom_buttons.update(event_list)
             self.bottom_buttons.draw(self.screen)
 
@@ -149,4 +177,24 @@ class GameBoard:
         cells = list(self.cell_group)
         # Activate the new cell, by finding the index of the cell
         cells[self.current_row * self.cell_number + self.current_col].set_active(True)
+
+    def draw_grid(self):
+        amount_of_lines = int(math.sqrt(self.cell_number))  # will generate sqrt of amount of cells - 1
+        grid_height = self.screen_height - (self.screen_height * self.SPACE_FOR_BUTTONS_RATIO)
+
+        # Draw vertical lines
+        for i in range(1, amount_of_lines):
+            pygame.draw.line(self.screen, self.line_color,
+                             (i * self.screen_width // amount_of_lines, 0),
+                             (i * self.screen_width // amount_of_lines, grid_height),
+                             self.cell_boarder_thickness)
+
+        # Draw horizontal lines
+        for i in range(1, amount_of_lines):
+            pygame.draw.line(self.screen, self.line_color,
+                             (0, i * grid_height // amount_of_lines),
+                             (self.screen_width, i * grid_height // amount_of_lines),
+                             self.cell_boarder_thickness)
+
+
 
