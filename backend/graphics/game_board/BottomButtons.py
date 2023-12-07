@@ -9,15 +9,26 @@ def generate_bottom_button_group(screen_width, screen_height, section_ratio, fon
                                  button_start_x_pos=0,
                                  button_spacing=50):
     """
-    Generates a group of UI buttons for the sudoku puzzle UI
+    Generates UI buttons for sudoku puzzle; returns pygame sprite group.
 
-    Returns: pygame sprite group
+    Parameters:
+        screen_width, screen_height (int): Screen dimensions
+        section_ratio (float): Ratio for button section
+        font (pygame.font.Font): Font for button text
+        screen (pygame.Surface): Pygame screen surface
+        grid (list): Sudoku grid layout
+        button_start_x_pos (int): Starting x position for first button
+        button_spacing (int): Spacing between buttons
+
+    Returns:
+        pygame.sprite.Group: Group containing button sprites
     """
 
     # finds the middle y-value of the button space
     y_pos = screen_height - (screen_height * section_ratio) // 2
     x_pos = screen_width // 2
 
+    # lamdas used to prevent premature execution of functions
     bottom_menu_options = {
         "Exit": quit_game,
         "Restart": lambda width=screen_width, height=screen_height, act=restart: act(width, height),
