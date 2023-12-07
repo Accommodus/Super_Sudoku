@@ -3,8 +3,25 @@ import pygame
 
 class Cell(pygame.sprite.Sprite):
     """
-    interactive sudoku cell
+    Interactive Sudoku cell sprite for Pygame application
 
+    Attributes:
+        font (pygame.font.Font): Font for cell text
+        default_background_color, highlight_color, default_text_color, sketched_text_color (tuple): Color configurations
+        current_color (tuple): Current color of cell
+        screen (pygame.Surface): Surface to draw cell on
+        filled_in (bool): Indicates if cell is pre-filled
+        text (str): Text content of cell
+        active (bool): Active state of cell
+        image (pygame.Surface): Surface for cell representation
+        rect (pygame.Rect): Rectangular area of cell
+        outline_color (tuple): Color of cell border
+        outline_width (int): Thickness of cell border
+
+    Methods:
+        update(): Redraws the cell with updated properties
+        handle_event(event): Handles events like mouse clicks and key presses
+        set_active(boole): Sets the active state of the cell
     """
 
     def __init__(self, pos_x, pos_y, filled_in, text, width, height, font, screen,

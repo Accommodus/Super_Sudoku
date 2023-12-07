@@ -4,6 +4,23 @@ from ..start_menu.MenuOption import MenuOption
 
 
 class EndGameScreen:
+    """
+        End game screen for Pygame Sudoku application.
+
+        Attributes:
+            screen_width, screen_height (int): Dimensions of the screen
+            screen (pygame.Surface): Surface for end game display
+            font (pygame.font.Font): Font for displaying text
+            menu_options (pygame.sprite.Group): Group for menu options
+            message (str): End game message
+            message_color (tuple): Color of the end game message
+
+        Methods:
+            add_menu_option(text, action, pos_x, pos_y): Adds menu options to the screen
+            quit_game(): Static method to quit the game
+            run(): Main loop for the end game screen; event handling and display updates
+        """
+
     def __init__(self, default_screen_width, default_screen_height, won_game):
         self.screen_width = default_screen_width
         self.screen_height = default_screen_height

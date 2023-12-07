@@ -189,7 +189,7 @@ class GameBoard:
                              (i * self.screen_width // amount_of_lines, grid_height),
                              self.cell_boarder_thickness)
 
-        # Draw horizontal lines
+        # draw horizontal lines
         for i in range(1, amount_of_lines):
             pygame.draw.line(self.screen, self.line_color,
                              (0, i * grid_height // amount_of_lines),

@@ -5,6 +5,7 @@ class TextBox(pygame.sprite.Sprite):
     """
     Represents an interactive text box for user input
 
+    Attributes
     - font: Font used to render the text
     - prompt_text: text displayed before user input
     - default_color: Default background color
@@ -18,6 +19,7 @@ class TextBox(pygame.sprite.Sprite):
     - outline_color: Color of the outline
     - outline_width: Width of the outline
 
+    Methods
     - update(): Redraws the text box.
     - handle_event(): Handles keyboard and mouse events
     - get_text(): Returns the current text

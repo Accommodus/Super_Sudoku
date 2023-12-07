@@ -9,7 +9,7 @@ def generate_bottom_button_group(screen_width, screen_height, section_ratio, fon
                                  button_start_x_pos=0,
                                  button_spacing=50):
     """
-    Generates UI buttons for sudoku puzzle; returns pygame sprite group.
+    Generates UI buttons for sudoku puzzle; returns pygame sprite group
 
     Parameters:
         screen_width, screen_height (int): Screen dimensions
